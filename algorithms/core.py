@@ -23,5 +23,6 @@ class Algorithm(nn.Module):
     def evaluate(self, x: torch.Tensor, y: torch.Tensor=None) -> Dict[str, int | float]:
         raise NotImplementedError()
     
-    def psnr(self, x_hat: torch.Tensor, err: torch.Tensor):
+    @staticmethod
+    def psnr(x_hat: torch.Tensor, err: torch.Tensor):
         return (20 * torch.log10(torch.max(x_hat) / torch.sqrt(err))).item()
