@@ -23,10 +23,14 @@ class Trainer:
     def __init__(self, args: argparse.Namespace) -> None:
         self.args = args
 
+        print('Experiment Setup')
         self.prepare_device()
+        print(f'\tdevice in use: {self.device}')
         self.prepare_seed()
         self.prepare_save_dir()
+        print(f'\tsave dir: {self.args.save_dir}')
         self.prepare_ds()
+        print(f'\tdataset is saved at ./dataset/source')
         
         if self.args.wandb:
             self.prepare_wandb()
@@ -53,12 +57,12 @@ class Trainer:
         torch.manual_seed(self.args.seed)
         torch.cuda.manual_seed(self.args.seed)
         torch.cuda.manual_seed_all(self.args.seed)
-        torch.backends.cudnn.deterministic = True
+        torch.use_deterministic_algorithms(True)
 
         self.gen_func = torch.Generator().manual_seed(self.args.seed)
 
     def prepare_save_dir(self):
-        main_dir = '/'.join(os.getcwd().split('/')[:-1])
+        main_dir = os.getcwd()
 
         run_dir = main_dir + '/runs'
         if not os.path.exists(run_dir):
@@ -73,7 +77,7 @@ class Trainer:
             os.mkdir(self.ds_dir)
         
         self.args.current_time = datetime.now().strftime('%m_%d_%Y_%H_%M_%S')
-        self.args.save_dir = self.ds_dir + f'/{self.current_time}'
+        self.args.save_dir = self.ds_dir + f'/{self.args.current_time}'
         if not os.path.exists(self.args.save_dir):
             os.mkdir(self.args.save_dir)
 
@@ -128,7 +132,7 @@ class Trainer:
             raise Exception(f'the method {self.args.method} is currently not supported')
 
         self.optimizer = Adam(self.model.parameters(), lr=self.args.lr)
-        self.scheduler = CosineAnnealingLR(self.optimizer, T_max = len(self.train_dl)*self.args.epochs)
+        self.scheduler = CosineAnnealingLR(self.optimizer, T_max = len(self.train_dl)*self.args.epoch)
     
     def log(self, log_dict: Dict[str, int | float], epoch: int):
         for log_key in log_dict:

@@ -13,7 +13,7 @@ class AE(Algorithm):
         self.args = args
 
         if self.args.ds == 'mnist':
-            from models import Mnist_AE_Latent
+            from .arch import Mnist_AE_Latent
             self.latent = Mnist_AE_Latent(latent_size=self.args.ldim)
         else:
             raise Exception(f"The architecture for dataset {self.args.ds} is not currently supported in method AutoEncoder")

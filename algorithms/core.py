@@ -11,7 +11,7 @@ class Algorithm(nn.Module):
     
     def prepare_model(self):
         if self.args.ds == 'mnist':
-            from models.mnist import MnistEncoder, MnistDecoder
+            from .arch.mnist import MnistEncoder, MnistDecoder
             self.encoder = MnistEncoder()
             self.decoder = MnistDecoder()
         else:
