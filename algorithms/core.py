@@ -8,6 +8,8 @@ class Algorithm(nn.Module):
         super().__init__()
 
         self.args = args
+
+        self.prepare_model()
     
     def prepare_model(self):
         if self.args.ds == 'mnist':

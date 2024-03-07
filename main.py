@@ -48,4 +48,4 @@ if __name__ == "__main__":
     else:
         raise Exception(f'The training mode {args.trm} is currently not supported')
     
-    # trainer_interface.run()
+    trainer_interface.run()

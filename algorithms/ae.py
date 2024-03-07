@@ -19,8 +19,8 @@ class AE(Algorithm):
             raise Exception(f"The architecture for dataset {self.args.ds} is not currently supported in method AutoEncoder")
     
     def forward(self, x: Tensor, y: Tensor = None) -> Tuple[Tensor, Dict[str, int | float]]:
-        x = self.encoder(x)
-        lat = self.latent(x)
+        x_enc = self.encoder(x)
+        lat = self.latent(x_enc)
         x_hat = self.decoder(lat)
 
         loss = F.mse_loss(x, x_hat)

@@ -59,6 +59,8 @@ class Trainer:
         torch.cuda.manual_seed_all(self.args.seed)
         torch.use_deterministic_algorithms(True)
 
+        os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
+
         self.gen_func = torch.Generator().manual_seed(self.args.seed)
 
     def prepare_save_dir(self):
@@ -134,9 +136,12 @@ class Trainer:
         self.optimizer = Adam(self.model.parameters(), lr=self.args.lr)
         self.scheduler = CosineAnnealingLR(self.optimizer, T_max = len(self.train_dl)*self.args.epoch)
     
-    def log(self, log_dict: Dict[str, int | float], epoch: int):
+    def log_wandb(self, log_dict: Dict[str, int | float], epoch: int):
         for log_key in log_dict:
             self.__run.log({log_key: log_dict[log_key]}, step=epoch)
+        
+    def log_tsboard(self, log_dict: Dict[str, int | float], epoch: int):
+        pass
     
     def log_model(self):
         best_path = self.args.save_dir + f'/best.pt'
