@@ -86,9 +86,16 @@ class Trainer:
     def prepare_ds(self):
         if self.args.ds == 'mnist':
             from dataset import CusMNIST
-        
             self.train_ds = CusMNIST(train = True)
             self.valid_ds = CusMNIST(train = False)
+        elif self.args.ds == 'cifar10':
+            from dataset import CusCIFAR10
+            self.train_ds = CusCIFAR10(train = True)
+            self.valid_ds = CusCIFAR10(train = False)
+        elif self.args.ds == 'cinic10':
+            from dataset import CINIC10
+            self.train_ds = CINIC10(split = 'train')
+            self.valid_ds = CINIC10(split = 'valid')
         else:
             raise Exception(f'dataset {self.args.ds} is currently not supported')
 

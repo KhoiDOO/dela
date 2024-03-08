@@ -15,6 +15,12 @@ class AE(Algorithm):
         if self.args.ds == 'mnist':
             from .arch import Mnist_AE_Latent
             self.latent = Mnist_AE_Latent(latent_size=self.args.ldim)
+        elif self.args.ds == 'cifar10':
+            from .arch import Cifar10_AE_Latent
+            self.latent = Cifar10_AE_Latent(latent_size=self.args.ldim)
+        elif self.args.ds == 'cinic10':
+            from .arch import Cinic10_AE_Latent
+            self.latent = Cinic10_AE_Latent(latent_size=self.args.ldim)
         else:
             raise Exception(f"The architecture for dataset {self.args.ds} is not currently supported in method AutoEncoder")
     

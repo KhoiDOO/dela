@@ -53,13 +53,13 @@ class Mnist_VAE_Latent(nn.Module):
         super().__init__()
 
         self.z_mean = nn.Sequential(
-            nn.Linear(32 * 7 * 7, 16),
-            nn.Linear(16, latent_size),
+            nn.Linear(32 * 7 * 7, latent_size),
+            # nn.Linear(16, latent_size),
         )
 
         self.z_var = nn.Sequential(
-            nn.Linear(32 * 7 * 7, 16),
-            nn.Linear(16, latent_size),
+            nn.Linear(32 * 7 * 7, latent_size),
+            # nn.Linear(16, latent_size),
         )
 
         self.lat_decode = nn.Linear(latent_size, 32 * 7 * 7)

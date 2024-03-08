@@ -5,7 +5,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='DELA Monitor')
 
     # DATASET
-    parser.add_argument('--ds', type=str, default='mnist', choices = ['mnist'],
+    parser.add_argument('--ds', type=str, default='mnist', choices = ['mnist', 'cifar10', 'cinic10'],
         help='dataset used in training')
     parser.add_argument('--bs', type=int, default=64,
         help='batch size used for data set')

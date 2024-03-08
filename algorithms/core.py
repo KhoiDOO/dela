@@ -13,9 +13,17 @@ class Algorithm(nn.Module):
     
     def prepare_model(self):
         if self.args.ds == 'mnist':
-            from .arch.mnist import MnistEncoder, MnistDecoder
+            from .arch import MnistEncoder, MnistDecoder
             self.encoder = MnistEncoder()
             self.decoder = MnistDecoder()
+        elif self.args.ds == 'cifar10':
+            from .arch import Cifar10Encoder, Cifar10Decoder
+            self.encoder = Cifar10Encoder()
+            self.decoder = Cifar10Decoder()
+        elif self.args.ds == 'cinic10':
+            from .arch import Cinic10Encoder, Cinic10Decoder
+            self.encoder = Cinic10Encoder()
+            self.decoder = Cinic10Decoder()
         else:
             raise Exception(f"The architecture for dataset {self.args.ds} is not currently supported")
 
