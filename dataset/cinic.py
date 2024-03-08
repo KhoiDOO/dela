@@ -6,7 +6,7 @@ from typing import *
 
 class CINIC10(VisionDataset):
     def __init__(self, 
-                 root: str = None, 
+                 split: str = 'train', 
                  transforms: Callable[..., Any] | None = None, 
                  transform: Callable[..., Any] | None = transforms.Compose(
                         [
@@ -18,4 +18,8 @@ class CINIC10(VisionDataset):
                     ), 
                  target_transform: Callable[..., Any] | None = None
                  ) -> VisionDataset:
+        
+        if split not in ['train', 'valid', 'test']:
+            raise ValueError(f"split must be one of ['train', 'valid', 'test'] in CINIC10, but found {split} instead")
+        root: str = "/".join(__file__.split("/")[:-1]) + f"/source/cinic10/{split}",
         super().__init__(root, transforms, transform, target_transform)
