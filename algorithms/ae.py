@@ -29,8 +29,8 @@ class AE(Algorithm):
     
     def evaluate(self, x: Tensor, y: Tensor = None) -> Dict[str, int | float]:
         with torch.no_grad():
-            x = self.encoder(x)
-            lat = self.latent(x)
+            x_enc = self.encoder(x)
+            lat = self.latent(x_enc)
             x_hat = self.decoder(lat)
 
             loss = F.mse_loss(x, x_hat)

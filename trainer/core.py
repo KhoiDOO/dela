@@ -143,16 +143,16 @@ class Trainer:
     def log_tsboard(self, log_dict: Dict[str, int | float], epoch: int):
         pass
     
-    def log_model(self):
+    def log_wbmodel(self):
         best_path = self.args.save_dir + f'/best.pt'
         if os.path.exists(best_path):
-            self.__run.log_model(path=best_path, model_name=f'{self.args.run_name}-best-model')
+            self.__run.log_model(path=best_path, name=f'{self.args.run_name}-best-model')
         else:
             raise Exception(f'best model path is not exist at {best_path}')
         
         last_path = self.args.save_dir + f'/last.pt'
         if os.path.exists(last_path):
-            self.__run.log_model(path=last_path, model_name=f'{self.args.run_name}-last-model')
+            self.__run.log_model(path=last_path, name=f'{self.args.run_name}-last-model')
         else:
             raise Exception(f'last model path is not exist at {last_path}')
     

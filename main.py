@@ -21,7 +21,7 @@ if __name__ == "__main__":
         help='seed used in training')
     parser.add_argument('--method', type=str, default='ae', choices=['ae'],
         help='method used in training')
-    parser.add_argument('--epoch', type=int, default=100,
+    parser.add_argument('--epoch', type=int, default=1,
         help='number of epochs used in training')
     parser.add_argument('--lr', type=float, default=0.001,
         help='learning rate')
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         help='toggle to use tensorboard for offline saving')
     parser.add_argument('--wandb_prj', type=str, default="DELA",
         help='toggle to use wandb for online saving')
-    parser.add_argument('--wandb_entity', type=str, default="scalemind",
+    parser.add_argument('--wandb_entity', type=str, default="truelove",
         help='toggle to use wandb for online saving')
     
     args = parser.parse_args()

@@ -17,7 +17,7 @@ class SupervisedTrainer(Trainer):
             old_valid_loss = 1e26
 
             for x, y in self.train_dl:
-                tr_loss, tr_log_dict = self.model(x=x.to(self.device))
+                tr_loss, tr_log_dict = self.model(x=x.to(self.device), y=y.to(self.device))
 
                 self.optimizer.zero_grad()
                 tr_loss.backward()
@@ -30,24 +30,25 @@ class SupervisedTrainer(Trainer):
                     for key in train_log_dict:
                         train_log_dict[key].append(tr_log_dict[key])
 
-            with torch.no_grad():
-                for x, y in self.valid_dl:
-                    tr_loss, vl_log_dict = self.model(x=x.to(self.device))
+            for x, y in self.valid_dl:
+                tr_loss, vl_log_dict = self.model.evaluate(x=x.to(self.device), y=y.to(self.device))
 
-                    if valid_log_dict is None:
-                        valid_log_dict = {key : [vl_log_dict[key]] for key in vl_log_dict}
-                    else:
-                        for key in valid_log_dict:
-                            valid_log_dict[key].append(vl_log_dict[key])
+                if valid_log_dict is None:
+                    valid_log_dict = {key : [vl_log_dict[key]] for key in vl_log_dict}
+                else:
+                    for key in valid_log_dict:
+                        valid_log_dict[key].append(vl_log_dict[key])
                 
             mean_train_log_dict = {key : sum(train_log_dict[key])/len(train_log_dict[key]) for key in train_log_dict}
             mean_valid_log_dict = {key : sum(valid_log_dict[key])/len(valid_log_dict[key]) for key in valid_log_dict}
 
             if self.args.wandb:
                 for dct in [mean_train_log_dict, mean_valid_log_dict]:
-                    self.log(log_dict=dct, epoch=epoch)
+                    self.log_wandb(log_dict=dct, epoch=epoch)
+            if self.args.log:
+                raise NotImplementedError()
             
-            mean_valid_loss = mean_valid_log_dict["valid/loss"]
+            mean_valid_loss = mean_valid_log_dict["valid/rec_loss"]
             save_dict = {
                 'epoch': epoch,
                 'model_state_dict': self.model.state_dict(),
@@ -64,4 +65,4 @@ class SupervisedTrainer(Trainer):
             save_path = self.args.save_dir + f"/last.pt"
             torch.save(save_dict, save_path)
 
-        self.log_model()
+        self.log_wbmodel()
