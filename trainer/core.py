@@ -130,6 +130,9 @@ class Trainer:
         if self.args.method == 'ae':
             from algorithms import AE
             self.model:Algorithm = AE(args=self.args).to(self.device)
+        elif self.args.method == 'vae':
+            from algorithms import VAE
+            self.model:Algorithm = VAE(args=self.args).to(self.device)
         else:
             raise Exception(f'the method {self.args.method} is currently not supported')
 

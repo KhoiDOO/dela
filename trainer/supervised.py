@@ -65,4 +65,5 @@ class SupervisedTrainer(Trainer):
             save_path = self.args.save_dir + f"/last.pt"
             torch.save(save_dict, save_path)
 
-        self.log_wbmodel()
+        if self.args.wandb:
+            self.log_wbmodel()

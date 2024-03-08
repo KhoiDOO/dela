@@ -19,7 +19,7 @@ if __name__ == "__main__":
         help='device index used in training')
     parser.add_argument('--seed', type=int, default=0,
         help='seed used in training')
-    parser.add_argument('--method', type=str, default='ae', choices=['ae'],
+    parser.add_argument('--method', type=str, default='ae', choices=['ae', 'vae'],
         help='method used in training')
     parser.add_argument('--epoch', type=int, default=1,
         help='number of epochs used in training')
